@@ -64,7 +64,7 @@ namespace BooksApp.Rest
             return book;
         }
 
-        public async Task AddBookRestAsync(Books book)
+        public async Task PostBookRestAsync(Books book)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace BooksApp.Rest
             }
         }
 
-        public async Task UpdateBookRestAsync(int id, Books book)
+        public async Task PutBookRestAsync(int id, Books book)
         {
             try
             {

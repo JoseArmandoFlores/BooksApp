@@ -24,7 +24,7 @@ namespace BooksApp.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IBookRepository, BooksServices>();
+            services.AddScoped<IBookServices, BooksServices>();
             services.AddSingleton<HttpClient>();
             services.AddControllersWithViews();
             services.AddRazorPages();

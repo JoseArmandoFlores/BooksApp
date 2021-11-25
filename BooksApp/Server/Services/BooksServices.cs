@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BooksApp.Server.Services
 {
-    public class BooksServices : IBookRepository
+    public class BooksServices : IBookServices
     {
         BooksRestService restService;
         public BooksServices()
@@ -23,7 +23,6 @@ namespace BooksApp.Server.Services
         public async Task<Books> GetBookAsync(int id)
         {
             Books book = new Books();
-
             try
             {
                 book = await restService.GetBookRestAsync(id);
@@ -42,13 +41,13 @@ namespace BooksApp.Server.Services
             return book;
         }
 
-        public async Task SaveBookAsync(Books book)
+        public async Task PostBookAsync(Books book)
         {
             try
             {
                 if (book != null)
                 {
-                    await restService.AddBookRestAsync(book);
+                    await restService.PostBookRestAsync(book);
                 }
             }
             catch (Exception)
@@ -58,15 +57,14 @@ namespace BooksApp.Server.Services
             }
         }
 
-        public async Task UpdateBookAsync(int id, Books book)
+        public async Task PutBookAsync(int id, Books book)
         {
-            var oldBook = await restService.GetBookRestAsync(id);
-
+            var previousBook = await restService.GetBookRestAsync(id);
             try
             {
-                if (oldBook != null)
+                if (previousBook != null)
                 {
-                    await restService.UpdateBookRestAsync(id, oldBook);
+                    await restService.PutBookRestAsync(id, previousBook);
                 }
             }
             catch (Exception)
@@ -79,7 +77,6 @@ namespace BooksApp.Server.Services
         public async Task<bool> DeleteBookAsync(int id)
         {
             bool isDeleted = false;
-
             try
             {
                 if (id > 0)

@@ -12,9 +12,9 @@ namespace BooksApp.Server.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly IBookRepository booksServices;
+        private readonly IBookServices booksServices;
 
-        public BooksController(IBookRepository booksServices)
+        public BooksController(IBookServices booksServices)
         {
             this.booksServices = booksServices;
         }
@@ -67,7 +67,7 @@ namespace BooksApp.Server.Controllers
                 return BadRequest();
             }
 
-            await booksServices.SaveBookAsync(book);
+            await booksServices.PostBookAsync(book);
 
             return CreatedAtAction(nameof(Get), new { id = book.Id }, book);
         }
@@ -78,7 +78,7 @@ namespace BooksApp.Server.Controllers
         {
             if (id > 0 && book != null)
             {
-                await booksServices.UpdateBookAsync(id, book);
+                await booksServices.PutBookAsync(id, book);
                 return Ok();
             }
 
