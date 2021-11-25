@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BooksApp.Client", "BooksApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BooksApp.Shared", "BooksApp\Shared\BooksApp.Shared.csproj", "{A3040AC9-2561-4A8B-9FE0-FAAEC48C4403}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BooksApp.Rest", "BooksApp.Rest\BooksApp.Rest.csproj", "{D59B7290-D01F-4F94-BFC2-FF9B2B5B8A20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A3040AC9-2561-4A8B-9FE0-FAAEC48C4403}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3040AC9-2561-4A8B-9FE0-FAAEC48C4403}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3040AC9-2561-4A8B-9FE0-FAAEC48C4403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D59B7290-D01F-4F94-BFC2-FF9B2B5B8A20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D59B7290-D01F-4F94-BFC2-FF9B2B5B8A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D59B7290-D01F-4F94-BFC2-FF9B2B5B8A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D59B7290-D01F-4F94-BFC2-FF9B2B5B8A20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

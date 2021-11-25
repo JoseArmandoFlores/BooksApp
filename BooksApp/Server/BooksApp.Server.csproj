@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BooksApp.Rest\BooksApp.Rest.csproj" />
     <ProjectReference Include="..\Client\BooksApp.Client.csproj" />
     <ProjectReference Include="..\Shared\BooksApp.Shared.csproj" />
   </ItemGroup>
