@@ -1,0 +1,163 @@
+﻿@page "/Books"
+
+@inject IToastService Toast
+@inject IBooksServices bookServices
+@inject NavigationManager navManager
+
+@using BooksApp.Shared.Models
+
+
+@if (books == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <form>
+        <div class="card">
+
+            <div class="card-header text-lg-center" style="border-radius:5px;">
+                <h3 style="font-family:Georgia;">Books</h3>
+            </div>
+
+            <div class="row justify-content-between" style="margin-top:15px; margin-left:1px;">
+                <div class="col-6">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input @bind="id" type="number" min="0" class="form-control col">
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-outline-primary" @onclick="SearchBook">
+                                    <span class="oi oi-magnifying-glass"> </span> Search
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-2">
+                    <button @onclick="PostBook" class="btn btn-primary">
+                        <span class="oi oi-plus"> </span> Add Book
+                    </button>
+                </div>
+            </div>
+
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Page Count</th>
+                        <th>Publish Date</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                @if(book != null) 
+                { 
+                    <tbody>
+                        <tr>
+                            <td>@book.Id</td>
+                            <td>@book.Title</td>
+                            <td>@book.PageCount</td>
+                            <td>@book.PublishDate</td>
+                            <td><button class="btn btn-outline-warning" @onclick="(() => PutBook(book.Id))">
+                                    <span class="oi oi-pencil"> </span> Edit
+                                </button>
+                            </td>
+                            <td><button class="btn btn-outline-danger" @onclick="(() => DeleteBook(book.Id))">
+                                    <span class="oi oi-trash"> </span> Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+                else
+                {
+                    <tbody>
+                        @foreach (var book in books)
+                        {
+                            <tr>
+                                <td>@book.Id</td>
+                                <td>@book.Title</td>
+                                <td>@book.PageCount</td>
+                                <td>@book.PublishDate</td>
+                                <td><button class="btn btn-outline-warning" @onclick="(() => PutBook(book.Id))">
+                                    <span class="oi oi-pencil"> </span>Edit
+                                </button>
+                                </td>
+                                <td><button class="btn btn-outline-danger" @onclick="(() => DeleteBook(book.Id))">
+                                        <span class="oi oi-trash"> </span>Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                }
+            </table>
+        </div>
+    </form>
+}
+
+@code {
+
+    private Books[] books;
+    private Books book;
+
+    private int bookID, id;
+
+    protected override async Task OnInitializedAsync()
+    {
+        books = await bookServices.GetBooks();
+        book = null;
+    }
+
+    private async Task SearchBook()
+    {
+        try
+        {
+            if (id <= 0)
+            {
+                books = await bookServices.GetBooks();
+                book = null;
+                return;
+            }
+
+            bookID = Convert.ToInt32(id);
+            book = await bookServices.GetBook(bookID);
+
+            if (bookID == book.Id)
+            {
+                Toast.ShowSuccess($"Found book: {book.Id}");
+            }
+            else
+            {
+                Toast.ShowError($"Ain't exist book: {bookID}");
+            }
+        }
+        catch (Exception e)
+        {
+            Toast.ShowError($"Error: {e.Message}");
+        }
+    }
+
+    private void BookDetail(int id)
+    {
+        navManager.NavigateTo($"/Books/{id}");
+    }
+
+    private void DeleteBook(int id)
+    {
+        navManager.NavigateTo($"/Books/{id}/Delete");
+    }
+
+    private void PostBook()
+    {
+        navManager.NavigateTo("/Books/Add");
+    }
+
+    private void PutBook(int id)
+    {
+        navManager.NavigateTo($"/Books/{id}/Edit");
+    }
+}
