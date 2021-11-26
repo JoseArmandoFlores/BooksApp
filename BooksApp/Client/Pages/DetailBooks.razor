@@ -1,0 +1,47 @@
+﻿@page "/Books/{Id:int}"
+
+@inject IBooksServices booksServices
+
+@using BooksApp.Shared.Models
+
+<div class="card border-info">
+    <div class="card-header bg-info text-lg-center" style="border-radius:5px;">
+        <h2 style="font-family:Georgia; color:white">Detail</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center mt-5">
+                <h3>@Book.Title</h3>
+            </div>
+
+            <div class="mt-5">
+                <p>@Book.Description</p>
+            </div>
+
+            <div class="mt-5">
+                <p>@Book.Excerpt</p>
+            </div>
+
+            <div class="align-items-end">
+                <b>Page Count: </b> @Book.PageCount
+            </div>
+
+            <div class="align-items-end">
+                <b>Publish Date: </b> @Book.PublishDate
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    Books Book = new Books();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Book = await booksServices.GetBook(Id);
+    }
+}

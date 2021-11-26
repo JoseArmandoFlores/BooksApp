@@ -9,7 +9,9 @@
 
 @if (books == null)
 {
-    <p><em>Loading...</em></p>
+    <div class="card text-lg-center">
+        <h2 style="font-family:Georgia;">Loading...</h2>
+    </div>
 }
 else
 {
@@ -51,6 +53,7 @@ else
                         <th>Publish Date</th>
                         <th>Edit</th>
                         <th>Delete</th>
+                        <th>Detail</th>
                     </tr>
                 </thead>
                 @if(book != null) 
@@ -61,12 +64,16 @@ else
                             <td>@book.Title</td>
                             <td>@book.PageCount</td>
                             <td>@book.PublishDate</td>
-                            <td><button class="btn btn-outline-warning" @onclick="(() => PutBook(book.Id))">
+                            <td><button type="button" class="btn btn-success" @onclick="(() => PutBook(book.Id))">
                                     <span class="oi oi-pencil"> </span> Edit
                                 </button>
                             </td>
-                            <td><button class="btn btn-outline-danger" @onclick="(() => DeleteBook(book.Id))">
+                            <td><button type="button" class="btn btn-danger" @onclick="(() => DeleteBook(book.Id))">
                                     <span class="oi oi-trash"> </span> Delete
+                                </button>
+                            </td>
+                            <td><button type="button" class="btn btn-info" @onclick="(() => DetailBook(book.Id))">
+                                    <span class="oi oi-align-center"> </span> Detail
                                 </button>
                             </td>
                         </tr>
@@ -82,14 +89,18 @@ else
                                 <td>@book.Title</td>
                                 <td>@book.PageCount</td>
                                 <td>@book.PublishDate</td>
-                                <td><button class="btn btn-outline-warning" @onclick="(() => PutBook(book.Id))">
-                                    <span class="oi oi-pencil"> </span>Edit
+                                <td><button type="button"  class="btn btn-warning" @onclick="(() => PutBook(book.Id))">
+                                    <span class="oi oi-pencil"> </span> Edit
                                 </button>
                                 </td>
-                                <td><button class="btn btn-outline-danger" @onclick="(() => DeleteBook(book.Id))">
-                                        <span class="oi oi-trash"> </span>Delete
+                                <td><button type="button" class="btn btn-danger" @onclick="(() => DeleteBook(book.Id))">
+                                        <span class="oi oi-trash"> </span> Delete
                                     </button>
                                 </td>
+                                <td><button type="button" class="btn btn-info" @onclick="(() => DetailBook(book.Id))">
+                                    <span class="oi oi-align-center"> </span> Detail
+                                </button>
+                            </td>
                             </tr>
                         }
                     </tbody>
@@ -141,7 +152,7 @@ else
         }
     }
 
-    private void BookDetail(int id)
+    private void DetailBook(int id)
     {
         navManager.NavigateTo($"/Books/{id}");
     }

@@ -1,0 +1,127 @@
+﻿@page "/Books/Add"
+@page "/Books/{Id:int}/Edit"
+
+@inject IToastService Toast
+@inject IBooksServices bookService
+
+@using BooksApp.Shared.Models
+
+<EditForm Model="Book" OnValidSubmit="Save">
+    <DataAnnotationsValidator />
+    <div class="card border-primary">
+        <div class="card-header bg-primary text-lg-center" style="border-radius:5px;">
+            <h3 style="font-family:Georgia; color:white">Book Registration</h3>
+        </div>
+
+        <div class="card-body">
+            <form>
+                @*Tittle*@
+                <div class="form-group">
+                    <label>Tittle</label>
+                    <InputText @bind-Value="Book.Title" class="form-control" />
+                    <ValidationMessage For="@(() => Book.Title)" />
+                </div>
+
+                @*Description*@
+                <div class="form-group">
+                    <label>Description</label>
+                    <InputText @bind-Value="Book.Description" class="form-control" />
+                    <ValidationMessage For="@(() => Book.Description)" />
+                </div>
+
+                @*Page count*@
+                <div class="form-group">
+                    <label>Page count</label>
+                    <InputNumber @bind-Value="Book.PageCount" class="form-control" />
+                    <ValidationMessage For="@(() => Book.PageCount)" />
+                </div>
+
+                @*Excerpt*@
+                <div class="form-group">
+                    <label>Excerpt</label>
+                    <InputText @bind-Value="Book.Excerpt" class="form-control" />
+                    <ValidationMessage For="@(() => Book.Excerpt)" />
+                </div>
+
+                @*Date*@
+                <div class="form-group">
+                    <label>Publish Date</label>
+                    <InputDate @bind-Value="Book.PublishDate" class="form-control" />
+                    <ValidationMessage For="@(() => Book.PublishDate)" />
+                </div>
+
+            </form>
+        </div>
+
+        <div class="card-footer">
+            <div class="form-group text-center" display: inline-block>
+                @if(Id > 0)
+					{
+						<button type="submit" class="btn btn-lg btn-info"> <span class="oi oi-cloud"></span> Update </button>
+					}
+					else
+					{
+						<button type="submit" class="btn btn-lg btn-info"> <span class="oi oi-cloud"></span> Save </button>
+					}
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    Books Book = new Books();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(Id > 0)
+        {
+            Book = await bookService.GetBook(Id);
+        }
+    }
+
+    private void New()
+    {
+        Book = new Books();
+    }
+
+    private async Task Save()
+    {
+        if(Book.Id > 0)
+        {
+            await PutBook();
+        }
+        else
+        {
+            await PostBook();
+        }
+    }
+
+    private async Task PostBook()
+    {
+        try
+        {
+            await bookService.PostBook(Book);
+            Toast.ShowSuccess("¡Book correctly saved!");
+            New();
+        }
+        catch (Exception e)
+        {
+            Toast.ShowError($"Error: {e.Message}");
+        }
+    }
+
+    private async Task PutBook()
+    {
+        try
+        {
+            await bookService.PutBook(Book.Id, Book);
+            Toast.ShowSuccess("¡Book correctly updated!");
+        }
+        catch (Exception e)
+        {
+            Toast.ShowError($"Error: {e.Message}");
+        }
+    }
+}

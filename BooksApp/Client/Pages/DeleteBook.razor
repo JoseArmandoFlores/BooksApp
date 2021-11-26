@@ -1,0 +1,68 @@
+﻿@page "/Books/{Id:int}/Delete"
+
+@inject IToastService Toast
+@inject IBooksServices booksServices
+
+@using BooksApp.Shared.Models
+
+<div class="card border-danger">
+    <div class="card-header bg-danger text-lg-center" style="border-radius:5px;">
+        <h3 style="font-family:Georgia; color:white">Delete Book</h3>
+    </div>
+
+    <div class="card-body text-lg-center">
+        <form>
+            @if (Book.Id == Id && isDeleted)
+            {
+                <h4>¡Book @Id deleted successfully!</h4>
+            }
+            else if (Id == 0)
+            {
+                <h4>¡Book 0 doesn't exist</h4>
+            }
+            else
+            {
+                <h4>¡Book @Id doesn't exist</h4>
+            }
+        </form>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    Books Book = new Books();
+    private bool isDeleted;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            Book = await booksServices.GetBook(Id);
+            await Delete();
+        }
+    }
+
+    private async Task Delete()
+    {
+        try
+        {
+            if (Id == 0 || Book.Id != Id)
+            {
+                Toast.ShowError($"¡Book {Book.Id} not found!");
+            }
+            else
+            {
+                isDeleted = true;
+                await booksServices.DeleteBook(Book.Id);
+
+                Toast.ShowSuccess($"¡Book {Book.Id} deleted succesfully!");
+            }
+        }
+        catch (Exception e)
+        {
+            Toast.ShowError($"¡Error: {e.Message}!");
+        }
+    }
+}
