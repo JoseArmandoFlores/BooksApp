@@ -16,6 +16,7 @@ namespace BooksApp.Shared.Models
         [Required]
         public string Description { get; set; }
         [Required]
+        [Range(minimum: 1, maximum: double.MaxValue, ErrorMessage = "This Field Can't Be Empty")]
         public int PageCount { get; set; }
         [Required]
         public string Excerpt { get; set; }
