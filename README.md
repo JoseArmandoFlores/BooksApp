@@ -8,6 +8,7 @@ After installing dotnet core, open the command line, navigate to the server dire
 ## Technologies 
 
 * Blazor WebAssembly (ASP .Net Core Hosted)
+* .Net Core 5
 
 ## Tools
 
